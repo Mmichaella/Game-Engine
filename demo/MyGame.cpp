@@ -1,7 +1,7 @@
 #include "MyGame.h"
 
 MyGame::MyGame() : AbstractGame(), score(3), lives(2), numKeys(1000), gameWon(false), box(10, 6, 30, 30) {
-	TTF_Font * font = ResourceManager::loadFont("res/fonts/brownie.ttf", 50);
+	TTF_Font * font = ResourceManager::loadFont("res/fonts/brownie.ttf", 25);
 	gfx->useFont(font);
 	gfx->setVerticalSync(true);
 
@@ -10,7 +10,7 @@ MyGame::MyGame() : AbstractGame(), score(3), lives(2), numKeys(1000), gameWon(fa
         particle->isAlive = true;
         particle->pos = Point2(getRandom(0, 800), getRandom(0, 600));
         Particles.push_back(particle);
-		particle->color = getRandomColor(0, 255);
+		particle->color = getRandomColor(100, 250);
     }
 }
 
@@ -19,7 +19,30 @@ MyGame::~MyGame() {
 }
 
 void MyGame::handleKeyEvents() {
+	if (eventSystem->isPressed(Key::A)) { 
+		for (auto key : Particles)
+			if (key->isAlive) 
+				key->pos = Point2(getRandom(0, 800), getRandom(0, 600));
+	} 
 	
+	if (eventSystem->isPressed(Key::W)) { 
+		for (auto key : Particles) 
+			if (key->isAlive) 
+				key->pos.x += 1; 
+	}
+
+	if (eventSystem->isPressed(Key::S)) { 
+		for (auto key : Particles) 
+			if (key->isAlive) 
+				key->pos.y -= 1;
+	}
+
+	if (eventSystem->isPressed(Key::D)) {
+		for (auto key : Particles)
+			if (key->isAlive)
+				key->pos.x -= 1;
+	}
+
 }
 
 
@@ -63,19 +86,16 @@ void MyGame::render() {
 		
 
 	
-	if (eventSystem->isPressed(Mouse::BTN_LEFT)) { 
+	if (eventSystem->isPressed(Mouse::BTN_LEFT)) {
 		Point2 mousePos=eventSystem->getMousePos(); 
 		for (auto key : Particles) 
 			if (key->isAlive) 
-				key->pos = Point2(getRandom(mousePos.x, mousePos.x+30), getRandom(mousePos.y, mousePos.y+30));
+				key->pos = Point2(getRandom(mousePos.x, mousePos.x+30), 
+					getRandom(mousePos.y, mousePos.y+30));
 			
-	} else {
-		for (auto key : Particles) 
-			if (key->isAlive) 
-				key->pos = Point2(getRandom(0, 800), getRandom(0, 600));
-	}
+	} 
 	
-};
+}; 
 
 void MyGame::renderUI() {
 	gfx->setDrawColor(SDL_COLOR_WHITE);
