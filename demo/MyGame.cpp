@@ -1,6 +1,6 @@
 #include "MyGame.h"
 
-MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(2500), gameWon(false), box(10, 6, 30, 30) {
+MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(2750), gameWon(false), box(10, 6, 30, 30) {
 	TTF_Font * font = ResourceManager::loadFont("res/fonts/Wkeys.ttf", 2.5);
 	gfx->useFont(font);
 	gfx->setVerticalSync(true);
@@ -23,7 +23,7 @@ void MyGame::handleKeyEvents() {
 		for (auto key : Particles)
 			if (key->isAlive)
 				key->pos.x += 1;
-	}
+	}  
 
 	if (eventSystem->isPressed(Key::A)) {
 		for (auto key : Particles) {
@@ -37,7 +37,7 @@ void MyGame::handleKeyEvents() {
 	if (eventSystem->isPressed(Key::S)) {
 		for (auto key : Particles)
 			if (key->isAlive)
-				key->pos.y += 1;
+				key->pos.y -= 1;
 	}
 
 	if (eventSystem->isPressed(Key::D)) {
